@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Game</title>
+	<style>
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body onkeydown="a(event)">
+	<canvas id="canvas" width="800" height="600"></canvas>
+
+	<script type="text/javascript">
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		var peopleHeadX, peopleHeadY, peopleHeadSizeX, peopleHeadSizeY
+		peopleHeadSizeX = 30;
+		peopleHeadSizeY = 30;
+		peopleHeadX = 400 - peopleHeadSizeX/2;
+		peopleHeadY = 300 - peopleHeadSizeY/2;
+		var brokenWindowsX = [];
+		var brokenWindowsY = [];
+		var ranNum;
+		var ranTime = 5;
+		var score = 0;
+		var time = 6;
+		var startGame = confirm("Use arrow key to move and space key to repair the windows. Ready to Start?");
+
+		if (startGame) {
+			randomBWX();
+			randomBWY();
+			draw();
+		}
+
+		function init() {
+			if (brokenWindowsX.every(check)) {
+				for (var c = 0; c < ranTime; c++) {
+					brokenWindowsX.pop();
+					brokenWindowsY.pop();
+				}
+				ranTime += 1;
+				time = 6;
+				randomBWX();
+				randomBWY();
+				window.requestAnimationFrame(init);
+			}else {
+				draw();
+			}
+		}
+
+		function check(status) {
+			return status == undefined;
+		}
+
+		function randomBWX() {
+			for (var i = 0; i < ranTime; i++) {
+				ranNum = Math.floor(Math.random() *10);
+				switch (ranNum) {
+				case 0:
+					brokenWindowsX.push(40)
+					break;
+				case 1:
+					brokenWindowsX.push(40)
+					break;
+				case 2:
+					brokenWindowsX.push(200)
+					break;
+				case 3:
+					brokenWindowsX.push(200)
+					break;
+				case 4:
+					brokenWindowsX.push(360)
+					break;
+				case 5:
+					brokenWindowsX.push(360)
+					break;
+				case 6:
+					brokenWindowsX.push(520)
+					break;
+				case 7:
+					brokenWindowsX.push(520)
+					break;
+				case 8:
+					brokenWindowsX.push(680)
+					break;
+				case 9:
+					brokenWindowsX.push(680)
+					break; 
+				}
+			}
+		}
+
+		function randomBWY() {
+			for (var r = 0; r < ranTime; r++) {
+				ranNum = Math.floor(Math.random() *10);
+				switch (ranNum) {
+				case 0:
+					brokenWindowsY.push(30)
+					break;
+				case 1:
+					brokenWindowsY.push(30)
+					break;
+				case 2:
+					brokenWindowsY.push(150)
+					break;
+				case 3:
+					brokenWindowsY.push(150)
+					break;
+				case 4:
+					brokenWindowsY.push(270)
+					break;
+				case 5:
+					brokenWindowsY.push(270)
+					break;
+				case 6:
+					brokenWindowsY.push(390)
+					break;
+				case 7:
+					brokenWindowsY.push(390)
+					break;
+				case 8:
+					brokenWindowsY.push(510)
+					break;
+				case 9:
+					brokenWindowsY.push(510)
+					break; 
+				}
+			}
+		}
+
+		function draw() {
+			ctx.clearRect(0,0,800,600);
+			ctx.fillStyle = '#b32d00';
+			ctx.fillRect(0,0,800,600);
+			//draw windows
+			for (var windowsX = 40; windowsX <= 800; windowsX+=160) {
+				for (var windowsY = 30; windowsY <= 600; windowsY+=120) {
+					ctx.fillStyle = "#b3e6ff";
+					ctx.fillRect(windowsX,windowsY,80,60);
+					ctx.fillStyle = "#999999";
+					ctx.fillRect(windowsX + 35,windowsY,10,60);
+					ctx.fillStyle = "cccccc";
+					ctx.fillRect(windowsX, windowsY - 30,80,10);
+				}
+			}
+
+			for (var i = 0; i < ranTime; i++) {
+				for (var r = 0; r < ranTime; r++) {
+					if (brokenWindowsX[i] == brokenWindowsX[r] && brokenWindowsY[i] == brokenWindowsY[r] && i != r) {
+						brokenWindowsX[i] = undefined;
+						brokenWindowsY[i] = undefined;
+					}
+				}
+			}
+			//draw broken windows
+			for (var a = 0; a < ranTime; a++) {
+				ctx.fillStyle = "#4d4d4d";
+				ctx.fillRect(brokenWindowsX[a],brokenWindowsY[a],80,60);
+				ctx.fillStyle = "#999999";
+				ctx.fillRect(brokenWindowsX[a] + 35,brokenWindowsY[a],10,60);
+			}
+
+			//draw people
+			ctx.fillStyle = "#000000";
+			ctx.fillRect(peopleHeadX,peopleHeadY,peopleHeadSizeX,peopleHeadSizeY);
+			ctx.fillStyle = '#ff8533';
+			ctx.fillRect(peopleHeadX,peopleHeadY + peopleHeadSizeY,30,35);
+			ctx.fillStyle = '#ffcc99';
+			ctx.fillRect(peopleHeadX - 10,peopleHeadY + peopleHeadSizeY,10,20);
+			ctx.fillRect(peopleHeadX + 30, peopleHeadY + peopleHeadSizeY,10,20);
+			ctx.fillRect(peopleHeadX, peopleHeadY + peopleHeadSizeY + 35,10,10);
+			ctx.fillRect(peopleHeadX + 20, peopleHeadY + peopleHeadSizeY + 35,10,10);
+
+			//draw score
+			ctx.font = '30px sans-serif';
+			ctx.fillStyle = "ffb366";
+			ctx.fillText('Scores: ' + score.toString(), 10, 25);
+
+			//draw time
+			ctx.font = '30px sans-serif';
+			ctx.fillStyle = "ffb366";
+			ctx.fillText('Time: ' + time.toString(), 690, 25);
+		}
+
+		function a(event) {
+			//keyboard control
+			var keyD = event.which;
+				if (keyD == 38 && peopleHeadY > 120) {
+					peopleHeadY -= 120;
+				}else if (keyD == 40 && peopleHeadY < 480) {
+					peopleHeadY += 120;
+				}else if (keyD == 37 && peopleHeadX > 160) {
+					peopleHeadX -= 160;
+				}else if (keyD == 39 && peopleHeadX < 640) {
+					peopleHeadX += 160;
+				}else if (keyD == 32) {
+					for (var b = 0; b < ranTime; b++) {
+						if (peopleHeadX - 25 == brokenWindowsX[b] && peopleHeadY - 15 == brokenWindowsY[b]) {
+							brokenWindowsX[b] = undefined;
+							brokenWindowsY[b] = undefined;
+							score += 10;
+						}
+					}
+				}
+			window.requestAnimationFrame(init);
+
+		}
+
+		//timer
+		setInterval(function() {
+			time -= 1;
+			window.requestAnimationFrame(init);
+			if (time < 0) {
+					alert("Game Over. Scores: " + score.toString()); 
+					location.reload();
+			}
+  		}, 1000);
+
+  		init();
+
+	</script>
+</body>
+</html>
