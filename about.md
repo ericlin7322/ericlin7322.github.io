@@ -4,12 +4,13 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+## 學歷：
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jglovier" %} /
-[jekyll-new](https://github.com/jglovier/jekyll-new)
+國立中山大學		機械與機電工程學系	畢業  
+國立陽明交通大學	資訊科學與工程研究所	在學  
 
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+## 工作經歷：
+
+2018/08 ~ 2018/09	Trinalog Intern  
+2018/11 ~ 2019/01	Trinalog Part-time  
+
